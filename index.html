@@ -61,6 +61,16 @@
       transition: border-color 0.2s;
     }
 
+    /* Фикс ширины date input на iOS, чтобы длинная локализованная дата не раздувала layout */
+    @supports (-webkit-touch-callout: none) {
+      input[type="date"] {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        -webkit-appearance: none;
+      }
+    }
+
     input:focus {
       border-color: var(--tg-theme-button-color);
     }
@@ -147,9 +157,7 @@
   </style>
 </head>
 <body>
-
   <h1>Регистрация в программе лояльности</h1>
-
   <form id="registrationForm" novalidate>
     <div class="form-group">
       <label for="lastName">Фамилия</label>
