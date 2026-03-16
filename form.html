@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Регистрация в программе лояльности</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- Содержимое формы перенесено из прежнего index.html -->
+  <style>
+  /* Весь CSS скопирован из старого index.html */
+  :root {
+    --tg-theme-bg-color: #ffffff;
+    --tg-theme-text-color: #000000;
+    --tg-theme-hint-color: #999999;
+    --tg-theme-link-color: #2481cc;
+    --tg-theme-button-color: #2481cc;
+    --tg-theme-button-text-color: #ffffff;
+    --tg-theme-secondary-bg-color: #f0f0f0;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--tg-theme-bg-color);
+    color: var(--tg-theme-text-color);
+    padding: 16px;
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--tg-theme-hint-color);
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1.5px solid var(--tg-theme-hint-color);
+    border-radius: 10px;
+    background-color: var(--tg-theme-secondary-bg-color);
+    color: var(--tg-theme-text-color);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    input[type="date"] {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      -webkit-appearance: none;
+    }
+  }
+
+  input:focus {
+    border-color: var(--tg-theme-button-color);
+  }
+
+  input.error {
+    border-color: #e53935;
+  }
+
+  .error-text {
+    color: #e53935;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+  }
+
+  .error-text.visible {
+    display: block;
+  }
+
+  .consent-section {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+
+  .consent-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .consent-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--tg-theme-text-color);
+    background-color: var(--tg-theme-secondary-bg-color);
+    border-radius: 12px;
+    padding: 16px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .consent-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 16px;
+    cursor: pointer;
+  }
+
+  .consent-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-top: 2px;
+    accent-color: var(--tg-theme-button-color);
+  }
+
+  .consent-checkbox span {
+    font-size: 14px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 8px;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .submit-btn:not(:disabled):active {
+    opacity: 0.8;
+  }
+  </style>
+</head>
+<body>
+  <h1>Регистрация в программе лояльности</h1>
+  <form id="registrationForm" novalidate>
+    <div class="form-group">
+      <label for="lastName">Фамилия</label>
+      <input type="text" id="lastName" name="lastName" placeholder="Иванов" autocomplete="family-name" required>
+      <div class="error-text" id="lastNameError">Введите фамилию</div>
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">Имя</label>
+      <input type="text" id="firstName" name="firstName" placeholder="Иван" autocomplete="given-name" required>
+      <div class="error-text" id="firstNameError">Введите имя</div>
+    </div>
+
+    <div class="form-group">
+      <label for="middleName">Отчество</label>
+      <input type="text" id="middleName" name="middleName" placeholder="Иванович (необязательно)" autocomplete="additional-name">
+    </div>
+
+    <div class="form-group">
+      <label for="birthDate">Дата рождения</label>
+      <input type="date" id="birthDate" name="birthDate" required>
+      <div class="error-text" id="birthDateError">Укажите дату рождения</div>
+    </div>
+
+    <div class="consent-section">
+      <div class="consent-title">Согласие на обработку персональных данных</div>
+      <div class="consent-text">
+        <p>Я даю своё согласие на обработку моих персональных данных (фамилия, имя, отчество, номер телефона, дата рождения) в целях участия в программе лояльности, включая:</p>
+        <br>
+        <p>• сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных;</p>
+        <br>
+        <p>• отправку информационных и рекламных сообщений посредством мессенджера Telegram, SMS и иных каналов связи.</p>
+        <br>
+        <p>Согласие действует с момента его предоставления и до момента отзыва. Отзыв согласия осуществляется путём направления соответствующего уведомления.</p>
+      </div>
+
+      <label class="consent-checkbox">
+        <input type="checkbox" id="consentCheckbox">
+        <span>Я ознакомился(-ась) с условиями и даю согласие на обработку персональных данных</span>
+      </label>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn" disabled>Подтвердить</button>
+  </form>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+
+    const form = document.getElementById('registrationForm');
+    const lastNameInput = document.getElementById('lastName');
+    const firstNameInput = document.getElementById('firstName');
+    const middleNameInput = document.getElementById('middleName');
+    const birthDateInput = document.getElementById('birthDate');
+    const consentCheckbox = document.getElementById('consentCheckbox');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Предзаполнение из URL hash
+    try {
+      const hash = window.location.hash;
+      const prefillMatch = hash.match(/prefill=([^&]+)/);
+      if (prefillMatch) {
+        const prefillData = JSON.parse(atob(decodeURIComponent(prefillMatch[1])));
+        if (prefillData.lastName) lastNameInput.value = prefillData.lastName;
+        if (prefillData.firstName) firstNameInput.value = prefillData.firstName;
+        if (prefillData.middleName) middleNameInput.value = prefillData.middleName;
+        if (prefillData.birthDate) birthDateInput.value = prefillData.birthDate;
+      }
+    } catch (e) {
+      console.warn('Не удалось прочитать предзаполненные данные:', e);
+    }
+
+    function validateForm() {
+      const lastName = lastNameInput.value.trim();
+      const firstName = firstNameInput.value.trim();
+      const birthDate = birthDateInput.value;
+      const consent = consentCheckbox.checked;
+
+      const isValid = lastName.length > 0 && firstName.length > 0 && birthDate && consent;
+      submitBtn.disabled = !isValid;
+      return isValid;
+    }
+
+    [lastNameInput, firstNameInput, middleNameInput, birthDateInput].forEach(input => {
+      input.addEventListener('input', () => {
+        input.classList.remove('error');
+        const errorEl = document.getElementById(input.id + 'Error');
+        if (errorEl) errorEl.classList.remove('visible');
+        validateForm();
+      });
+    });
+
+    consentCheckbox.addEventListener('change', validateForm);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      let hasError = false;
+
+      if (!lastNameInput.value.trim()) {
+        lastNameInput.classList.add('error');
+        document.getElementById('lastNameError').classList.add('visible');
+        hasError = true;
+      }
+      if (!firstNameInput.value.trim()) {
+        firstNameInput.classList.add('error');
+        document.getElementById('firstNameError').classList.add('visible');
+        hasError = true;
+      }
+      if (!birthDateInput.value) {
+        birthDateInput.classList.add('error');
+        document.getElementById('birthDateError').classList.add('visible');
+        hasError = true;
+      }
+
+      if (hasError || !consentCheckbox.checked) return;
+
+      const data = {
+        lastName: lastNameInput.value.trim(),
+        firstName: firstNameInput.value.trim(),
+        middleName: middleNameInput.value.trim() || '',
+        birthDate: birthDateInput.value,
+        consentGiven: true,
+        consentDate: new Date().toISOString(),
+      };
+
+      tg.sendData(JSON.stringify(data));
+    });
+
+    validateForm();
+  </script>
+</body>
+</html>
+
